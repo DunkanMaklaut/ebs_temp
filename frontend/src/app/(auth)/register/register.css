@@ -1,0 +1,85 @@
+.registerPage {
+  text-align: center;
+  background-color: var(--primary-background);
+}
+
+.full-screen-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.register-form-rectangle {
+  background-color: var(--secondary-background);
+  flex-direction: column;
+  align-items: center; 
+  border-radius: 20px;
+  padding: 1%;
+  box-sizing: border-box;
+  position: relative; 
+  width: 30%;
+}
+
+.register-title {
+  font-size: 24px;
+  font-family: 'Dela Gothic One', sans-serif;
+  margin-top: 5%;
+}
+
+.register-grid-container {
+  display: flex;
+  flex-direction: column; 
+  align-items: center; 
+  font-weight: normal;
+  width: 100%;
+  margin-top: 5%;
+}
+
+.textField, .custom-text-field {
+  border: none;
+  background-color: var(--element-background);
+  border-radius: 25px;
+  font-size: 18px;
+  width: 100%;
+}
+
+.textFieldContainer {
+  display: flex;
+  font-family: 'Inter', sans-serif;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.labelText {
+  margin-bottom: 5px;
+  font-size: 16px;
+  color: var(--secondary-text);
+  text-align: left;
+}
+
+.registration-button, .authorization-button {
+  background-color: var(--primary-button);
+  color: var(--primary-button-text);
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  padding: 15px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  width: 90%;
+  height: 70px;
+  border: none;
+  margin-top: 5%;
+}
+
+.textFieldContainer, .registration-button, .authorization-button {
+  width: 100%;
+  max-width: 800px; 
+  box-sizing: border-box;
+}
+
+.authorization-button {
+  background-color: var(--secondary-button);
+  color: var(--secondary-button-text);
+}

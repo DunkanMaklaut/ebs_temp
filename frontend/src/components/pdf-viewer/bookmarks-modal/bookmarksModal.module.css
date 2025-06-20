@@ -1,0 +1,128 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    max-width: 400px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  
+  .modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .closeButton {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+  }
+  
+  .bookmarksList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+  }
+  
+  .bookmarkItem {
+    padding: 12px;
+    border-radius: 6px;
+    background-color: rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .bookmarkItem:hover {
+    background-color: rgba(0,0,0,0.1);
+  }
+  
+  .bookmarkItem.active {
+    background-color: rgba(0,0,0,0.15);
+    font-weight: bold;
+  }
+  
+  .noBookmarks {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+  }
+
+  /* Добавляем новые стили */
+.bookGroup {
+  margin-bottom: 1rem;
+}
+
+.bookGroup h4 {
+  margin: 0.5rem 0;
+  color: var(--text-color);
+}
+
+.addBookmarkForm {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.addBookmarkForm input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.active {
+  border-left: 3px solid #f39c12;
+}
+
+.bookmarkItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  margin: 4px 0;
+  border-radius: 4px;
+}
+
+
+.bookmarkItem:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.bookmarkItem.active {
+  background-color: rgba(0, 0, 0, 0.2);
+  font-weight: bold;
+}
+
+.deleteButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  margin-left: 10px;
+}
+
+.deleteButton:hover {
+  color: #cc0000;
+}

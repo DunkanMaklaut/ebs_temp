@@ -1,0 +1,74 @@
+.login-form-rectangle {
+  background-color: var(--secondary-background);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Центрируем содержимое по вертикали */
+  border-radius: 20px;
+  padding: 24px; /* Уменьшаем отступы */
+  box-sizing: border-box;
+  width: 100%; /* Ширина формы */
+  max-width: 360px; /* Уменьшаем максимальную ширину формы */
+  margin: 0 auto; /* Центрируем форму по горизонтали */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тень для красоты */
+}
+
+.login-title {
+  font-size: 20px; /* Уменьшаем размер шрифта */
+  font-family: 'Dela Gothic One', sans-serif;
+  margin-bottom: 16px; /* Уменьшаем отступ снизу */
+  text-align: center; /* Центрируем текст */
+}
+
+.grid-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 16px; /* Уменьшаем отступ снизу */
+}
+
+.textField, .custom-text-field {
+  border: none;
+  background-color: var(--element-background);
+  border-radius: 20px; /* Уменьшаем скругление */
+  font-size: 14px; /* Уменьшаем размер шрифта */
+  width: 100%;
+  padding: 10px 14px; /* Уменьшаем отступы внутри поля ввода */
+  margin-bottom: 12px; /* Уменьшаем отступ между полями */
+}
+
+.textFieldContainer {
+  display: flex;
+  font-family: 'Inter', sans-serif;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 12px; /* Уменьшаем отступ снизу */
+}
+
+/* Стили для кастомных кнопок */
+.registration-button, .authorization-button {
+  background-color: var(--primary-button);
+  color: var(--primary-button-text);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px; /* Уменьшаем размер шрифта */
+  padding: 10px 16px; /* Уменьшаем отступы кнопки */
+  border-radius: 20px; /* Уменьшаем скругление */
+  cursor: pointer;
+  width: 100%; /* Ширина кнопки */
+  border: none;
+  margin-top: 8px; /* Уменьшаем отступ сверху */
+  transition: background-color 0.3s ease; /* Плавное изменение цвета */
+}
+
+.authorization-button {
+  background-color: var(--secondary-button);
+  color: var(--secondary-button-text);
+}
+
+/* Стили для логотипа */
+.login-logo {
+  width: 80px; /* Уменьшаем размер логотипа */
+  height: auto; /* Сохраняем пропорции */
+  margin-bottom: 16px; /* Отступ снизу */
+}

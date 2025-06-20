@@ -1,0 +1,13 @@
+.btn{
+  background-color: var(--primary-button);
+  color: var(--primary-button-text);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px; /* Уменьшаем размер шрифта */
+  padding: 10px 16px; /* Уменьшаем отступы кнопки */
+  border-radius: 20px; /* Уменьшаем скругление */
+  cursor: pointer;
+  width: 100%; /* Ширина кнопки */
+  border: none;
+  margin-top: 8px; /* Уменьшаем отступ сверху */
+  transition: background-color 0.3s ease; /* Плавное изменение цвета */
+}

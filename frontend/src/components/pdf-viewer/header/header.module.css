@@ -1,0 +1,99 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    margin-bottom: 10px;
+    flex-shrink: 0;
+    background-color: transparent;
+  }
+  
+  .headerLeft, 
+  .headerRight {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .iconButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    width: 40px;
+    height: 40px;
+  }
+  
+  .iconButton:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+  
+  @media (max-width: 768px) {
+    .header {
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .headerLeft,
+    .headerRight {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+  
+  .headerLeft, .headerRight {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .headerCenter {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Важно: выравнивание по вертикали внутри центра */
+    flex: 1;
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .pageInputContainer {
+    align-items: center;
+    gap: 10px;
+    border: none;
+  }
+  
+  .pageInputContainer input {
+    width: 70px;
+    padding: 5px;
+    text-align: center;
+    border-radius: 4px;
+    resize: none;
+    overflow-y: auto;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    
+    box-sizing: border-box;
+  }
+  
+  @media (max-width: 768px) {
+    .pagination {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }

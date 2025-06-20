@@ -1,0 +1,26 @@
+.labelText {
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: var(--primary-text); 
+  border-color: 1pxvar(--primary-button);
+  text-align: left; 
+}
+
+.textFieldContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+}
+
+.textField {
+  width: 100%; 
+  padding: 15px 20px;
+  height: 60px; 
+  border-radius: 20px;
+  box-sizing: border-box; 
+}
+
+.textField:focus {
+  outline: none; 
+}

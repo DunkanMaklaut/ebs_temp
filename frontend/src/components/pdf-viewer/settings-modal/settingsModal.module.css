@@ -1,0 +1,119 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  .modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .closeButton {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+  }
+  
+  .themeOptions {
+    margin-bottom: 15px;
+  }
+  
+  .presetThemes {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+  }
+  
+  .presetTheme {
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.2s ease;
+  }
+  
+  .presetTheme:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+  
+  .colorPickers {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+  }
+  
+  .colorPicker {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .colorPicker label {
+    font-size: 0.9rem;
+  }
+  
+  .colorPicker input[type="color"] {
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 0;
+  }
+  
+  .colorPicker input[type="color"]::-webkit-color-swatch {
+    border: none;
+    border-radius: 50%;
+  }
+  
+  .zoomControls {
+    margin-top: 15px;
+  }
+  
+  .zoomButtons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .zoomButton {
+    padding: 5px 15px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+  }
+  
+  @media (max-width: 768px) {
+    .colorPickers {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }

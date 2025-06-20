@@ -1,0 +1,43 @@
+server:
+  port: 8080
+pdf:
+  directory:
+    path: D:\DEVELOP\books\
+cover:
+  directory:
+    path: D:\DEVELOP\cover\
+toc:
+  directory:
+    path: D:\DEVELOP\toc
+
+rsa:
+  private-key: classpath:certs/private.pem
+  public-key: classpath:certs/public.pem
+
+app:
+  jwt:
+    secret: 76cbddef12af35f528617206f0f92246fd8c13232f1b235c6e03ef8fba9898682ae4de72b9c2a8e0c2e033e372e9449a37d4f461119a9bb2806ca4e154bb5b504793cd35dff95692a826a516c77b06791605a7ed7c35465b119f82ff3adf31caf90d3a8d0677e5d1b20aea5e5752e3e8181af98254ab15915bc58556c4e7a6afc974812d06e1cfeca5e4cc14045cb3e5cf384058e4a18262d8a728f0309f143a441d23484ed27f6c7490cf80a0235356a4ce48d5009e1e47dbb3af9d3a27b1ace092eb5d694d693b9e88d4f5699d563e5abade437dc73139956905c986b9a017ddd01e47643ff1b1d5187a7d8bb9c7ab183e0305c1fcc014e77d1785f61a35be
+    expiration-in-ms: 86400000  # 24 часа
+
+spring:
+  mvc:
+    format:
+      date: yyyy-MM-dd
+      date-time: yyyy-MM-dd HH:mm:ss
+      time: HH:mm:ss
+    async:
+      request-timeout: -1
+  application:
+    name: EBS
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/ebs
+    username: postgres
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+

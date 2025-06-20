@@ -1,0 +1,9 @@
+.collectionScreen {
+    background: var(--primary-background);
+  }
+  
+  .collectionScreen-container {
+    max-width: 75vw;
+    margin: 0 auto;
+    margin-top: 7rem; /* Увеличиваем отступ сверху */
+  }

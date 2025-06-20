@@ -1,0 +1,27 @@
+.logo-text {
+  display: flex;
+  flex-direction: column; /* Располагаем текст в колонку */
+  align-items: flex-start; /* Выравниваем текст по левому краю */
+  color: var(--primary-text);
+}
+
+.logo-bold {
+  font-weight: bold;
+  font-family: 'Inter', sans-serif;
+  font-size: 32px; /* Размер шрифта */
+  margin-bottom: 5px; /* Отступ между строками */
+}
+
+.logo-span {
+  color: var(--secondary-text);
+}
+
+.logo-container {
+  display: flex; /* Переключаем контейнер на flexbox */
+  align-items: center; /* Выравниваем элементы по вертикали */
+  justify-content: center; /* Элементы располагаются слева */
+  gap: 8px; /* Добавляем расстояние между картинкой и текстом */
+}
+.wrapper {
+  display: flex;
+}

@@ -1,0 +1,68 @@
+.about-book-tab {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .about-section-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin: 0rem 0 1rem;
+  }
+  
+  .about-subsection-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-text);
+  }
+  
+  .about-detail-row {
+    display: flex;
+    margin-bottom: 0.3rem;
+    font-size: 0.95rem;
+  }
+  
+  .about-detail-label {
+    width: 160px;
+    font-weight: 500;
+    color: var(--primary-text);
+    margin-right: 1rem;  /* Увеличиваем отступ */
+  }
+  
+  .about-detail-value {
+    flex: 1;
+    color: var(--primary-text);
+  }
+  
+  .about-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .about-item {
+    position: relative;
+  }
+  
+  .keyword-list,
+  .feature-list {
+    margin: 0.5rem 0;
+    padding-left: 1.2rem;
+    color: #444;
+    list-style-type: disc;
+  }
+  
+  .keyword-list li,
+  .feature-list li {
+    margin-bottom: 0.3rem;
+  }
+
+.dot {
+  margin-left: 0.7rem; /* Отступ от предыдущего элемента перед точкой */
+  color: var(--primary-text); /* Цвет точки */
+  vertical-align: middle; /* Выравнивание точки по вертикали */
+}
+  
+  

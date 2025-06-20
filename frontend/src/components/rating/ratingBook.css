@@ -1,0 +1,6 @@
+.rating-book {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--primary-text);
+}

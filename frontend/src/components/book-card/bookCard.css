@@ -1,0 +1,310 @@
+.book-card-container {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin-top: 20;
+    width: 75vw;
+  }
+  
+  .book-card {
+    display: flex;
+    gap: 24px;
+    background: var(--secondary-background);
+    box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.1);
+    border-radius: 32px;
+    padding: 32px;
+    width: 100%;
+  }
+  
+  .book-cover-container {
+    width: 243px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 24px;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    align-items: stretch;
+  }
+  
+  .book-bigger-cover {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  
+  .book-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .book-header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+  
+  .book-header {
+    flex: 1;
+  }
+  
+  .card-book-title {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    color: var(--primary-text);
+    margin: 0 0 8px 0;
+  }
+  
+  .book-isbn {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: var(--secondary-text);
+    margin: 0;
+  }
+
+  .book-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    color: var(--primary-text);
+  }
+  
+  .book-rating-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .dot-separator {
+    width: 4px;
+    height: 4px;
+    background-color: var(--primary-text);
+    border-radius: 50%;
+    display: inline-block;
+  }
+  
+  .review-count {
+    color: var(--primary-text);
+    font-size: 0.95rem;
+    font-weight: 500;
+    display: flex;
+  }
+
+  
+  .book-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 120px;
+  }
+  
+  .action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    background: var(--primary-background);
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    white-space: nowrap;
+    height: 48px;
+    min-width: 48px;
+    position: relative;
+  }
+  
+  
+  .action-btn:hover {
+    background: var(--primary-background);
+  }
+  
+  .read-btn {
+    background: var(--primary-button);
+    color: var(--primary-button-text);
+    gap: 8px;
+  }
+  
+  .read-btn:hover {
+    background: var(--primary-button);
+    color: var(--primary-button-text);
+  }
+  
+  .icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .secondary-actions {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .secondary-actions .action-btn {
+  padding: 12px;
+}
+
+.text {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+  }
+
+  .book-details {
+    background: var(--primary-background);
+    border-radius: 24px;
+    padding: 28px;
+  }
+
+  .details-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .text-button {
+    background: none;
+    border: none;
+    color: var(--primary-button);
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    padding: 0;
+    transition: color 0.2s ease;
+  }
+  
+  .text-button:hover {
+    color: var(--primary-button);
+    text-decoration: none;
+  }
+  
+  .details-title {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    color: var(--primary-text);
+    margin: 0 0 16px 0;
+  }
+  
+  .detail-row {
+    display: flex;
+    margin-bottom: 8px;
+  }
+
+  .authors-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .author {
+    display: flex;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    color: var(--secondary-text);
+  }
+  
+  .dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--primary-text);
+    border-radius: 50%;
+    margin: 0 6px;
+    display: inline-block;
+  }
+  
+  
+  .detail-label {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: var(--secondary-text);
+    width: 150px;
+  }
+  
+  .detail-value {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: var(--secondary-text);
+    flex: 1;
+  }
+
+  .catalog-tag {
+    color: var(--primary-text);
+    background-color: var(--secondary-background);
+    padding: 4px 12px;
+    border-radius: 12px;
+  }
+
+  @media (max-width: 868px) {
+    .book-card-container {
+      width: 90vw;
+    }
+  
+    .book-card {
+      flex-direction: column;
+      padding: 24px;
+      gap: 16px;
+    }
+  
+    .book-header-wrapper {
+      flex-direction: column;
+      gap: 16px;
+    }
+  
+    .book-actions {
+      flex-direction: row;
+      justify-content: space-between;
+      min-width: unset;
+    }
+  
+    .secondary-actions {
+      justify-content: space-between;
+      width: 100%;
+    }
+  
+    .secondary-actions .action-btn {
+      flex: 1;
+      padding: 8px;
+    }
+  
+    .book-cover-container {
+      width: 100%;
+      max-width: 300px;
+      align-self: center;
+    }
+  
+    .book-details {
+      padding: 20px;
+    }
+  
+    .detail-row {
+      flex-direction: column;
+    }
+  
+    .detail-label {
+      width: auto;
+      margin-bottom: 4px;
+    }
+  }

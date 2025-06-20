@@ -1,0 +1,15 @@
+/* bookPage.css */
+.bookScreen {
+    background: var(--primary-background);
+    min-height: 100vh;
+}
+
+.bookScreen-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 7rem;
+}   
+
+/* Keep your existing bookCard.css styles */
