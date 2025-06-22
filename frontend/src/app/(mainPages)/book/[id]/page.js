@@ -2,17 +2,17 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import BookCard from "@components/book-card/bookCard.jsx";
-import BookTabs from "@components/book-tabs/bookTabs.jsx";
-import Header from "@components/header/Header.js";
-import Breadcrumbs from "@components/breadcrumbs/breadcrumbs.jsx";
-import { applyTheme } from "@/app/themeUtils.js";
-import { lightTheme } from "@resources/colors/colors.js";
+import BookCard from "@components/book-card/bookCard";
+import BookTabs from "@components/book-tabs/bookTabs";
+import Header from "@components/header/Header";
+import Breadcrumbs from "@components/breadcrumbs/breadcrumbs";
+import { applyTheme } from "@/app/themeUtils";
+import { lightTheme } from "@resources/colors/colors";
 import API_BASE_URL from "@/config";
-import "./bookPage.css";
 
 const BookPage = () => {
   const { id } = useParams();
+  const router = useRouter();
 
   const [book, setBook] = useState(null);
   const [activeTab, setActiveTab] = useState("about");
@@ -20,13 +20,7 @@ const BookPage = () => {
   const [reviews, setReviews] = useState([]);
   const [userReviewExists, setUserReviewExists] = useState(false);
 
-  const currentUserId = 1; // Временно
-
-  const router = useRouter();
-
-  const handleReaderClick = (bookId) => {
-    router.push(`/reader/${bookId}`);
-  };
+  const currentUserId = 1; // временный заглушка
 
   useEffect(() => {
     applyTheme(lightTheme);
@@ -34,42 +28,45 @@ const BookPage = () => {
 
   useEffect(() => {
     if (!id) return;
-
     fetch(`${API_BASE_URL}/api/book/${id}`)
       .then((res) => res.json())
       .then(setBook)
-      .catch((err) => console.error("Ошибка при загрузке книги:", err));
-
+      .catch(console.error);
     fetch(`${API_BASE_URL}/api/book/getSimilarById/${id}/10`)
       .then((res) => res.json())
       .then((data) => {
-        const formattedBooks = data.map((book) => ({
-          id: book.id,
-          title: book.name,
-          subtitle: book.authors.map((a) => a.fullName).join(", "),
-          cover: book.coverSheet
-            ? `data:image/jpeg;base64,${book.coverSheet}`
-            : "/images/emptycover.png",
-        }));
-        setSimilarBooks(formattedBooks);
+        setSimilarBooks(
+          data.map((b) => ({
+            id: b.id,
+            title: b.name,
+            subtitle: b.authors.map((a) => a.fullName).join(", "),
+            cover: b.coverSheet
+              ? `data:image/jpeg;base64,${b.coverSheet}`
+              : "/images/emptycover.png",
+          }))
+        );
       })
-      .catch((err) => console.error("Ошибка при загрузке похожих книг:", err));
+      .catch(console.error);
   }, [id]);
 
   useEffect(() => {
     if (!id) return;
-
     fetch(`${API_BASE_URL}/api/review/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setReviews(data);
-        const alreadyReviewed = data.some((r) => r.userId === currentUserId);
-        setUserReviewExists(alreadyReviewed);
+        setUserReviewExists(data.some((r) => r.userId === currentUserId));
       })
-      .catch((err) => console.error("Ошибка при загрузке отзывов:", err));
+      .catch(console.error);
   }, [id]);
 
-  if (!book) return <div>Загрузка...</div>;
+  const handleReaderClick = (bookId) => {
+    router.push(`/reader/${bookId}`);
+  };
+
+  if (!book) {
+    return <div className="flex items-center justify-center h-screen">Загрузка...</div>;
+  }
 
   const breadcrumbPath = [
     { label: "Главная", href: "/" },
@@ -78,15 +75,16 @@ const BookPage = () => {
   ];
 
   return (
-    <div className="bookScreen">
-      <div className="bookScreen-container">
+    <div className="min-h-screen bg-primary-background">
+      <div className="max-w-screen-xl mx-auto pt-28 px-3 sm:px-4 lg:px-8 flex flex-col items-stretch space-y-8">
         <Breadcrumbs path={breadcrumbPath} />
         <BookCard
-          book={book}
-          setActiveTab={setActiveTab}
-          reviewCount={reviews.length}
-          onReaderClick={handleReaderClick}
-        />
+            book={book}
+            setActiveTab={setActiveTab}
+            reviewCount={reviews.length}
+            onReaderClick={handleReaderClick}
+            colors={lightTheme}
+          />
         <BookTabs
           book={book}
           activeTab={activeTab}

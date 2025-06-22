@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./scr/**/*.{html,js, jsx, ts, tsx}",
+    "./src/**/*.{html,js,jsx,ts,tsx}",
     "./app/**/*.{html,js,ts,jsx,tsx}",
     "./app/login/*.{html,js,ts,jsx,tsx}",
     "./components/**/*.{html,js,ts,jsx,tsx}",
@@ -9,7 +9,19 @@ module.exports = {
   theme: {
     extend: { 
       colors: {
-      darkGray: '#292933',
+        "dark-gray": "#292933",
+        "primary-background": "#F6F7F8",
+        "secondary-background": "#FFFFFF",
+        "primary-text": "#121212",
+        "secondary-text": "#838C98",
+        "primary-line": "#1ED760",
+        "secondary-line": "rgba(0, 0, 0, 0.3)",
+        "element-background": "#F6F7F8",
+        "element-text": "#000000",
+        "primary-button": "#4285f4",
+        "primary-button-text": "#FFFFFF",
+        "secondary-button": "#292933",
+        "secondary-button-text": "#FFFFFF"
     }
   },
   },

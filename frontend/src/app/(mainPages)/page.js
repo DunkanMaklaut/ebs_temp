@@ -2,8 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import "./page.css";
-import Header from "@components/header/Header.js";
 import Image from "next/image";
 import CollectionList from "@components/collectionList/CollectionList.jsx";
 import { applyTheme } from "@/app/themeUtils.js";
@@ -69,29 +67,34 @@ const Page = function () {
   }, []);
 
   return (
-    <div className="homeScreen">
-      <div className="homeScreen-container">
-        <div className="welcome-block">
+    <div className="bg-primary-background">
+      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Welcome Block */}
+        <div className="w-full mt-28 rounded-3xl overflow-hidden">
           <Image
             src="/images/welcomeBlock.png"
             alt="Welcome Block"
-            className="welcome-image"
+            className="w-full h-auto object-cover rounded-3xl"
             width={1920}
             height={400}
           />
         </div>
-        <div className="genres-container">
-          {genres.map((genre, index) => (
+
+        {/* Genres */}
+        <div className="mt-5 grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {genres.map((genre) => (
             <div
               key={genre.id}
-              className="genre-block"
+              className="bg-white px-4 py-2 rounded-xl text-sm cursor-pointer flex items-center justify-center truncate text-center"
               onClick={() => router.push(`/collection/${genre.id}`)}
             >
               {genre.name}
             </div>
           ))}
         </div>
-        <div className="collections-container">
+
+        {/* Collections */}
+        <div className="mt-8 space-y-8">
           {collections
             .filter((collection) => collection.books.length > 0)
             .map((collection) => (
@@ -104,6 +107,7 @@ const Page = function () {
                 onMoreDetails={handleMoreDetails}
                 hideMoreDetails={false}
                 onBookClick={handleBookClick}
+                
               />
             ))}
         </div>

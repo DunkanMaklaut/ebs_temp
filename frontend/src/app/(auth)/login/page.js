@@ -4,7 +4,6 @@ import { useState, FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import API_BASE_URL from "@/config";
-import "./loginScreen.css";
 import AcceptButton from "@components/acceptButton/acceptButton";
 import Button from "@components/button/button";
 import LogoEBS from "@components/logo/logoEbs.jsx";

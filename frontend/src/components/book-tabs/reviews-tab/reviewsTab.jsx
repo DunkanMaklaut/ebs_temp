@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 import { IconStar } from '@components/icons';
 import RatingBook from '@components/rating/ratingBook.jsx';
-import './reviewsTab.css';
-import API_BASE_URL from '@/config'; 
+import API_BASE_URL from '@/config';
+import { lightTheme as colors } from '@resources/colors/colors';
 
 const StarRating = ({ rating, setRating }) => {
   return (
-    <div className="star-rating">
+    <div className="flex">
       {[1, 2, 3, 4, 5].map((val) => (
         <span
           key={val}
-          className="star"
           onClick={() => setRating(val)}
-          style={{ cursor: 'pointer', marginRight: 4 }}
+          className="cursor-pointer mr-1"
         >
           <IconStar color={val <= rating ? '#FFD700' : '#CCCCCC'} size={20} />
         </span>
@@ -27,12 +26,15 @@ const ReviewText = ({ text }) => {
   const isLong = lines.length > 4 || text.length > 300;
 
   return (
-    <div className="review-text">
-      <p style={{ whiteSpace: 'pre-line' }}>
+    <div className="mt-1 text-[0.95rem] whitespace-pre-wrap" style={{ color: colors.primaryText }}>
+      <p>
         {expanded ? text : (text.length > 300 ? text.slice(0, 300) + '...' : text)}
       </p>
       {isLong && (
-        <button className="expand-btn" onClick={() => setExpanded(!expanded)}>
+        <button
+          className="mt-1 text-blue-600 cursor-pointer bg-none border-none p-0"
+          onClick={() => setExpanded(!expanded)}
+        >
           {expanded ? 'Скрыть' : 'Показать полностью'}
         </button>
       )}
@@ -82,46 +84,82 @@ const ReviewsTab = ({ reviews, userReviewExists }) => {
   };
 
   return (
-    <div className="reviews-tab">
+    <div className="flex flex-col gap-3 w-full" style={{ color: colors.primaryText }}>
       {!userReviewExists && !submitted && (
-        <div className="add-review-form" style={{ marginBottom: '2rem' }}>
+        <div className="mb-8">
           <textarea
             value={newReview}
             onChange={e => setNewReview(e.target.value)}
             placeholder="Напишите ваш отзыв..."
             rows={3}
+            className="w-full p-4 px-8 resize-none overflow-y-auto text-base font-sans rounded-xl border-none box-border"
+            style={{
+              backgroundColor: colors.primaryBackground,
+              color: colors.primaryText,
+              fontFamily: "'Inter', sans-serif",
+            }}
+            onFocus={e => {
+              e.target.style.backgroundColor = 'transparent';
+              e.target.style.outline = 'none';
+              e.target.style.border = `2px solid ${colors.primaryBackground}`;
+              e.target.style.color = colors.primaryText;
+            }}
+            onBlur={e => {
+              e.target.style.backgroundColor = colors.primaryBackground;
+              e.target.style.border = 'none';
+            }}
           />
-          <div className="review-input-row">
+          <div className="flex items-center justify-between gap-4 mt-0.5">
             <StarRating rating={rating} setRating={setRating} />
-            <div className="review-buttons">
-              <button onClick={handleCancel} className="cancel-btn">Отмена</button>
-              <button onClick={handleSubmit} className="submit-btn">Оставить отзыв</button>
+            <div className="flex flex-wrap gap-3">
+              <button
+                onClick={handleCancel}
+                className="bg-transparent px-4 py-2 text-sm rounded-lg cursor-pointer border-none"
+                style={{ color: colors.primaryText }}
+              >
+                Отмена
+              </button>
+              <button
+                onClick={handleSubmit}
+                className="px-5 py-2 text-sm rounded-lg cursor-pointer border-none"
+                style={{
+                  backgroundColor: colors.primaryButton,
+                  color: colors.primaryButtonText,
+                }}
+              >
+                Оставить отзыв
+              </button>
             </div>
           </div>
         </div>
       )}
 
       {reviews.length > 0 ? (
-        <div className="reviews-list" style={{ marginBottom: '2rem' }}>
+        <div className="mb-8">
           {reviews.map((r) => (
-          <div key={r.id} className="review-wrapper" style={{ marginBottom: '1.5rem' }}>
-            <div className="review-header-outside">
-              <strong>{r.fullUserName}</strong>
-              <div className="review-rating-inline">
-                <RatingBook rating={r.rating}></RatingBook>
+            <div key={r.id} className="mb-6">
+              <div className="flex items-center gap-2 mb-1 text-base font-semibold" style={{ color: colors.primaryText }}>
+                <strong>{r.fullUserName}</strong>
+                <div>
+                  <RatingBook rating={r.rating} />
+                </div>
+              </div>
+              <div
+                className="rounded-xl p-3"
+                style={{ backgroundColor: colors.primaryBackground }}
+              >
+                <ReviewText text={r.text} />
               </div>
             </div>
-            <div className="review-item">
-              <ReviewText text={r.text} />
-            </div>
-          </div>
-        ))}
+          ))}
         </div>
       ) : (
-        <p>Пока нет отзывов</p>
+        <p style={{ color: colors.primaryText }}>Пока нет отзывов</p>
       )}
 
-      {submitted && <p className="review-success">Спасибо за отзыв!</p>}
+      {submitted && (
+        <p className="font-bold" style={{ color: 'green' }}>Спасибо за отзыв!</p>
+      )}
     </div>
   );
 };
