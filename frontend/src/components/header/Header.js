@@ -3,104 +3,15 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { HiUser, HiOutlineSearch } from "react-icons/hi";
-import {
-  FaTh,
-  FaHeart,
-  FaTimes,
-  FaBookOpen,
-  FaChartBar,
-  FaBookmark,
-} from "react-icons/fa";
+import { FaTh } from "react-icons/fa";
 import { toast } from "react-hot-toast";
 import API_BASE_URL from "@/config";
 import { applyTheme } from "@/app/themeUtils";
 import { lightTheme } from "@resources/colors/colors.js";
-import { useAuth } from "@/app/context/AuthContext";
-import Link from "next/link";
-
-const UserManipulateHeader = (loggedIn) => {
-  const { user, loading } = useAuth();
-  const router = useRouter();
-
-  if (loading)
-    return (
-      <button
-        onClick={() => router.push("/register")}
-        type="button"
-        className="profile-button"
-      >
-        <HiUser className="profile-icon text-gray-500" />
-        <span className="profile-text">Загрузка...</span>
-      </button>
-    );
-  if (!user || user?.role == "") {
-    return (
-  <button
-    onClick={() => router.push("/register")}
-    type="button"
-    className="profile-button flex flex-col items-center justify-center p-2"
-  >
-    <HiUser className="profile-icon text-gray-500 text-xl mb-1" />
-    <span className="profile-text text-gray-500 text-sm">Войти</span>
-  </button>
-);
-  }
-
-  if (user.role == "READER")
-    return (
-      <>
-        <button
-          type="button"
-          className="profile-button"
-          onClick={() => router.push("/profile")}
-        >
-          <HiUser className="profile-icon text-gray-500 " />
-          <span className="profile-text text-gray-500">Профиль</span>
-        </button>
-        <button
-          type="button"
-          className="profile-button"
-          onClick={() => router.push("/profile")}
-        >
-          <FaHeart className="profile-icon text-gray-500" />
-          <span className="profile-text text-gray-500">Избранное</span>
-        </button>
-      </>
-    );
-
-  return (
-    <>
-      <button
-        type="button"
-        className="profile-button"
-        onClick={() => router.push("/profile")}
-      >
-        <HiUser className="profile-icon" />
-        <span className="profile-text">Профиль</span>
-      </button>
-      <button
-        type="button"
-        className="profile-button"
-        onClick={() => router.push("/profile")}
-      >
-        <FaChartBar className="profile-icon" />
-        <span className="profile-text">Статистика</span>
-      </button>
-      <button
-        type="button"
-        className="profile-button"
-        onClick={() => router.push("/profile")}
-      >
-        <FaBookmark className="profile-icon" />
-        <span className="profile-text">Заявки</span>
-      </button>
-    </>
-  );
-};
 
 const getTokenFromCookie = () => {
   if (typeof document === "undefined") return null;
-  const match = document.cookie.match(new RegExp("(^| )token=([^;]+)"));
+  const match = document.cookie.match(new RegExp('(^| )token=([^;]+)'));
   return match ? match[2] : null;
 };
 
@@ -126,8 +37,7 @@ const Header = () => {
     const fetchGenres = async () => {
       try {
         const response = await fetch(`${API_BASE_URL}/api/discipline/all`);
-        if (!response.ok)
-          throw new Error(`HTTP error! status: ${response.status}`);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const data = await response.json();
         setGenres(data);
       } catch (error) {
@@ -148,9 +58,7 @@ const Header = () => {
 
       try {
         const response = await fetch(
-          `${API_BASE_URL}/api/Search/small/${encodeURIComponent(
-            searchQuery
-          )}/5`
+          `${API_BASE_URL}/api/Search/small/${encodeURIComponent(searchQuery)}/5`
         );
         if (!response.ok) throw new Error("Ошибка при получении подсказок");
         const data = await response.json();
@@ -192,17 +100,11 @@ const Header = () => {
           className="flex items-center cursor-pointer flex-shrink-0 w-auto"
           onClick={() => router.push("/")}
         >
-          <Image
-            src="/images/LogoEbs.svg"
-            alt="EBS Logo"
-            width={50}
-            height={50}
-          />
+          <Image src="/images/LogoEbs.svg" alt="EBS Logo" width={50} height={50} />
           <div className="ml-2 text-sm leading-tight hidden sm:block">
             <div className="font-bold text-lg text-gray-800">ТехТОМ</div>
             <div className="text-xs text-gray-500">
-              Электронно-
-              <br /> библиотечная система
+              Электронно-<br /> библиотечная система
             </div>
           </div>
         </div>
@@ -220,7 +122,9 @@ const Header = () => {
         <div className="relative flex-grow min-w-0 max-w-4xl mx-2">
           <form
             onSubmit={handleSearch}
-            className={`flex rounded-lg overflow-hidden w-full border-2 ${"border-blue-500"}`}
+            className={`flex rounded-lg overflow-hidden w-full border-2 ${
+              "border-blue-500"
+            }`}
           >
             <input
               ref={inputRef}
@@ -247,9 +151,7 @@ const Header = () => {
                 <li
                   key={item.id}
                   onClick={() => {
-                    router.push(
-                      `/search/${encodeURIComponent(item.suggestion)}`
-                    );
+                    router.push(`/search/${encodeURIComponent(item.suggestion)}`);
                     setSearchQuery(item.suggestion);
                     setShowSuggestions(false);
                   }}
@@ -262,8 +164,26 @@ const Header = () => {
           )}
         </div>
 
-        <div className="header-actions">
-          <UserManipulateHeader loggedIn={isLoggedIn} />
+        {/* Right-side buttons */}
+        <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
+          {isLoggedIn ? (
+            <>
+              <button 
+              onClick={() => router.push("/profile")}
+              className="flex flex-col items-center text-gray-600 hover:text-blue-600 text-sm">
+                <HiUser className="text-xl" />
+                <span className="hidden sm:inline">Профиль</span>
+              </button>
+            </>
+          ) : (
+            <button
+              onClick={() => router.push("/register")}
+              className="flex flex-col items-center text-gray-600 hover:text-blue-600 text-sm"
+            >
+              <HiUser className="text-xl" />
+              <span className="hidden sm:inline">Войти</span>
+            </button>
+          )}
         </div>
       </div>
     </header>

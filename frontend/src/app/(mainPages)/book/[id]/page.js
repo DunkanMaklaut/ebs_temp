@@ -65,11 +65,7 @@ const BookPage = () => {
   };
 
   if (!book) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        Загрузка...
-      </div>
-    );
+    return <div className="flex items-center justify-center h-screen">Загрузка...</div>;
   }
 
   const breadcrumbPath = [
@@ -83,12 +79,12 @@ const BookPage = () => {
       <div className="max-w-screen-xl mx-auto pt-28 px-3 sm:px-4 lg:px-8 flex flex-col items-stretch space-y-8">
         <Breadcrumbs path={breadcrumbPath} />
         <BookCard
-          book={book}
-          setActiveTab={setActiveTab}
-          reviewCount={reviews.length}
-          onReaderClick={handleReaderClick}
-          colors={lightTheme}
-        />
+            book={book}
+            setActiveTab={setActiveTab}
+            reviewCount={reviews.length}
+            onReaderClick={handleReaderClick}
+            colors={lightTheme}
+          />
         <BookTabs
           book={book}
           activeTab={activeTab}

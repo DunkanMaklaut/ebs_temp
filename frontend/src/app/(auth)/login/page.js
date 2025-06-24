@@ -21,7 +21,8 @@ export default function LoginPage() {
     setError("");
 
     try {
-      const response = await fetch("/api/auth/login", {
+      // Здесь будет запрос к вашему API
+      const response = await fetch(API_BASE_URL + "/api/auth/token", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -30,7 +31,14 @@ export default function LoginPage() {
       });
 
       const data = await response.text().toString();
+
       if (response.ok) {
+        // Сохраняем токен (пример для кук)
+        document.cookie = `token=${data}; path=/; max-age=${
+          60 * 60 * 24
+        }; SameSite=Lax${
+          process.env.NODE_ENV === "production" ? "; Secure" : ""
+        }`;
         router.push("/profile");
       } else {
         setError(data.message || "Ошибка авторизации");
@@ -41,10 +49,9 @@ export default function LoginPage() {
       setIsLoading(false);
     }
   };
-
   return (
     <div className="flex items-center justify-center h-full">
-      <div className="bg-[#FFFFFF] rounded-[14px] sm:min-w-[500px] max-w-sm mx-auto flex flex-col justify-center py-12 px-6 lg:px-8 gap-12">
+      <div className="bg-[#FFFFFF] rounded-[14px] min-w-[500px] max-w-sm mx-auto flex flex-col justify-center py-12 sm:px-6 lg:px-8 gap-12">
         <div className="flex max-w-sm flex-col justify-center mx-auto">
           <LogoEBS />
         </div>
@@ -68,30 +75,27 @@ export default function LoginPage() {
                   </svg>
                 </div>
                 <div className="ml-3">
-                  <p className="text-sm text-red-700">{error}</p>
+                  <p className="text-sm text-red-700"> {error}</p>
                 </div>
               </div>
             </div>
           )}
 
-          <h3 className="text-darkGray text-center text-2xl font-bold font-black">
+          <h3 className="text-darkGray text-center text-2xl font-bold  font-black">
             Авторизация
           </h3>
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="formField">
-              <label
-                htmlFor="email"
-                className="email block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="email" className="email">
                 Email
               </label>
               <input
                 id="email"
                 name="email"
-                type=""
+                type="email"
                 autoComplete="email"
                 required
-                className="bg-[#F6F7F8] mt-1 appearance-none block w-full px-3 py-2 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className=" bg-[#F6F7F8] mt-1 appearance-none block w-full px-3 py-2 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -99,10 +103,7 @@ export default function LoginPage() {
             </div>
 
             <div className="formField">
-              <label
-                htmlFor="password"
-                className="password block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="password" className="password">
                 Пароль
               </label>
               <input
@@ -111,7 +112,7 @@ export default function LoginPage() {
                 type="password"
                 autoComplete="current-password"
                 required
-                className="bg-[#F6F7F8] mt-1 appearance-none block w-full px-3 py-2 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className=" bg-[#F6F7F8] mt-1 appearance-none block w-full px-3 py-2  rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 placeholder="Пароль"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

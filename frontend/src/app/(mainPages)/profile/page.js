@@ -1,41 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-
+import { NextPage } from "next";
 import Header from "@components/header/Header";
 import Breadcrumbs from "@components/breadcrumbs/breadcrumbs";
 import { lightTheme } from "@resources/colors/colors.js";
-import { BookViewCatalog } from "@/app/(mainPages)/profile/components/cardBook";
-import { title } from "process";
-import { ButtonTxt } from "@/app/(mainPages)/profile/components/ButtonTxt";
-import { MainCardInfo } from "@/app/(mainPages)/profile/components/MainCardInfo";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@/app/context/AuthContext";
-import SubContentBook from "@/app/(mainPages)/profile/subContentScreen/SubContentBook";
-import { ContentHistory } from "@/app/(mainPages)/profile/ContentHistory";
-import PersonalAccountReader from "@/app/(mainPages)/profile/personalAccountReader";
-import PersonalAccountStaff from "@/app/(mainPages)/profile/personalAccountStaff";
-import API_BASE_URL from "@/config";
-import { ReportsAndStatistics } from "@/app/(mainPages)/profile/ReportsAndStatistics";
-import { ReportsAndStatisticsPublisher } from "@/app/(mainPages)/profile/ReportsAndStatisticsPublisher";
-import { UserManagement } from "@/app/(mainPages)/profile/UserManagement";
-import { BookCatalog } from "@/app/(mainPages)/profile/BookCatalog";
-import { Sidebar } from "@/app/(mainPages)/profile/Sidebar";
-import { SubContentClient } from "@/app/(mainPages)/profile/subContentScreen/SubContentClient";
-import Image from "next/image";
-// Безопасное получение роли с проверкой на undefined/null
-export const getRoleText = (user) => {
-  if (!user) return "Не авторизован";
-  console.log(user.role);
-  switch (user.role) {
-    case "READER":
-      return "Читатель";
-    case "LIBRARIAN":
-      return "Библиотекарь";
-    default:
-      return "Издатель"; // или "Неизвестная роль"
-  }
-};
+
 const buttonsForLibrarian = [
   { id: "profile", label: "Личная информация" },
   { id: "applications", label: "Заявки" },
@@ -44,301 +14,262 @@ const buttonsForLibrarian = [
   { id: "reportsAndStatistics", label: "Отчёты и статистика" },
 ];
 
-const buttonsForPublisher = [
-  { id: "profile", label: "Личная информация" },
-  { id: "applications", label: "Заявки" },
-  { id: "bookCatalog", label: "Каталог книг" },
-  { id: "reportsAndStatistics", label: "Отчёты и статистика" },
-];
+const buttonsForPublisher = [{ id: "profile", label: "Личная информация" }];
 const buttonsForReaders = [
   { id: "profile", label: "Личная информация" },
   { id: "history", label: "История" },
   { id: "myCollection", label: "Мои подборки" },
 ];
 
-const ThreeImageComponent = ({ images }) => {
-  if (!images || images.length === 0) return "Загрузка";
+const CustomInput = ({ title, value, ...props }) => {
   return (
-    <div className="w-128 h-64 flex gap-2">
-      {/* Левая часть (50% ширины, 100% высоты) */}
-      <div className="w-[70%] h-full overflow-hidden rounded-lg">
-        <Image
-          src={images[0]?.cover || "/default-image.jpg"}
-          width={70}
-          height={64}
-          alt="Левое изображение"
-          className="w-full h-full object-cover"
+    <div className="space-y-1">
+      <label className="block text-sm font-normal">{title}</label>
+      <div className="mt-1">
+        <input
+          value={value}
+          {...props}
+          className=" block w-full rounded-md 
+            border border-gray-300 
+            px-3 py-2 
+            text-gray-600 
+            focus:border-blue-500 
+            focus:outline-none 
+            focus:ring-1
+            focus:ring-blue-500 
+            sm:text-sm"
         />
-      </div>
-
-      {/* Правая часть (50% ширины, 100% высоты) */}
-      <div className="w-[30%] h-full flex flex-col gap-2">
-        {/* Верхнее правое изображение (50% ширины, 50% высоты) */}
-        <div className="h-1/2 overflow-hidden rounded-lg">
-          <Image
-            width={70}
-            height={64}
-            src={images[1]?.cover || "/default-image.jpg"}
-            alt="Верхнее правое изображение"
-            className="w-full h-full object-cover"
-          />
-        </div>
-
-        {/* Нижнее правое изображение (50% ширины, 50% высоты) */}
-        <div className="h-1/2 overflow-hidden rounded-lg">
-          <Image
-            width={70}
-            height={64}
-            src={images[2]?.cover || "/images/KOn.png"}
-            alt="Нижнее правое изображение"
-            className="w-full h-full object-cover"
-          />
-        </div>
       </div>
     </div>
   );
 };
 
-const CollectionsGrid = ({ collections = [] }) => {
-  console.log(collections);
+const ButtonTxt = ({ key, onClick, className, children, ...props }) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {collections.map((collection) => (
-        <div
-          key={collection.id}
-          className="bg-white p-4 rounded-lg shadow-md cursor-pointer hover:shadow-xl transition-shadow"
-        >
-          {/* Изображения книг */}
-          <div className="flex flex-wrap gap-2 mb-2">
-            <ThreeImageComponent
-              images={collection.booksCollection.slice(0, 3)}
-            />
+    <button
+      key={key}
+      onClick={onClick}
+      className={`${className} px-2 py-4  text-left text-sm font-medium rounded-lg transition-colors duration-200 `}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+};
+
+const Sidebar = ({ buttons, activeComponent, setActiveComponent }) => {
+  return (
+    <div className="flex flex-col justify-between bg-white rounded-lg shadow-sm  p-4 h-full w-1/3 max-w-[250]">
+      <div className="flex flex-col">
+        {buttons.map(({ id, label }) => (
+          <div key={id + label}>
+            <ButtonTxt
+              key={id}
+              onClick={() => setActiveComponent(id)}
+              className={
+                activeComponent === id
+                  ? "w-full bg-blue-500 text-white"
+                  : "w-full text-gray-700 hover:bg-gray-200"
+              }
+            >
+              {label}
+            </ButtonTxt>
           </div>
-          {/* Название и описание */}
-          <div>
-            <h3 className="text-lg font-semibold">{collection.title}</h3>
-            <p className="text-sm text-gray-500">
-              {collection.booksCollection.length} книг
-            </p>
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
+      <button className="px-2 py-4  text-left text-sm font-medium rounded-md transition-colors duration-200 text-gray-700">
+        Тех поддержка
+      </button>
     </div>
   );
+};
+
+const MainCardInfo = ({ children }) => {
+  return (
+    <div className=" bg-white rounded-lg shadow-sm w-3/3 p-5 flex flex-col gap-2.5">
+      {children}
+    </div>
+  );
+};
+
+const ContentHistory = () => {
+  return <MainCardInfo>{"Моя история"}</MainCardInfo>;
 };
 
 const ContentMyCollection = () => {
-  const [myCollection, setMyCollection] = useState([
-    /* {
-      id: "favorites",
-      title: "Избранное",
-      booksCollection: [],
-      isFavorites: true,
-    },
-    {
-      id: "1",
-      title: "Программирование",
-      booksCollection: [],
-      isFavorites: false,
-    },
-    {
-      id: "2",
-      title: "Наука",
-      booksCollection: [],
-      isFavorites: false,
-    },*/
-  ]);
+  return <MainCardInfo>{"Моя коллекция"}</MainCardInfo>;
+};
 
-  const [newCollectionName, setNewCollectionName] = useState("");
-
-  // Функция загрузки книг по дисциплине
-  const fetchBooks = async (id) => {
-    return [];
-    try {
-      const response = await fetch(
-        `${API_BASE_URL}/api/book/getSmallByDiscipline/${id}/5/0`
-      );
-      const booksData = await response.json();
-
-      if (!Array.isArray(booksData)) throw new Error("Неверный формат данных");
-
-      return booksData.map((book, index) => ({
-        id: book.id || `book-${id}-${index}`,
-        title: book.name || `Книга ${index + 1}`,
-        author:
-          book.authors?.map((a) => a.fullName).join(", ") ||
-          "Неизвестный автор",
-        cover: book.coverSheet
-          ? `data:image/jpeg;base64,${book.coverSheet}`
-          : "/images/emptycover.jpg",
-      }));
-    } catch (error) {
-      console.error("Ошибка при загрузке книг:", error);
-      return [];
-    }
-  };
-
-  useEffect(() => {
-    const loadCollections = async () => {
-      const programmingBooks = await fetchBooks(2);
-      const scienceBooks = await fetchBooks(4);
-      return;
-      setMyCollection([
-        {
-          id: "favorites",
-          title: "Избранное",
-          booksCollection: programmingBooks,
-          isFavorites: true,
-        },
-        ,
-        {
-          id: 1,
-          title: "Программирование",
-          booksCollection: programmingBooks,
-          isFavorites: false,
-        },
-        {
-          id: 2,
-          title: "Наука",
-          isFavorites: false,
-          booksCollection: scienceBooks,
-        },
-      ]);
-    };
-
-    loadCollections();
-  }, []); // Пустой массив зависимостей для выполнения только при монтировании
-  // Создание новой коллекции
-  const handleCreateCollection = () => {
-    if (!newCollectionName.trim()) return;
-
-    const newCollection = {
-      id: Date.now().toString(),
-      title: newCollectionName,
-      booksCollection: [],
-      isFavorites: false,
-    };
-
-    setMyCollection((prev) => [...prev, newCollection]);
-    setNewCollectionName("");
-  };
-  // Добавление книги в коллекцию
-  const addToCollection = (book, collectionId) => {
-    setMyCollection((prevCollections) =>
-      prevCollections.map((collection) =>
-        collection.id === collectionId
-          ? {
-              ...collection,
-              booksCollection: [
-                book,
-                ...collection.booksCollection.filter((b) => b.id !== book.id),
-              ],
-            }
-          : collection
-      )
-    );
-  };
-
-  // Удаление книги из коллекции
-  const removeFromCollection = (bookId, collectionId) => {
-    setMyCollection((prev) =>
-      prev.map((collection) =>
-        collection.id === collectionId
-          ? {
-              ...collection,
-              booksCollection: collection.booksCollection.filter(
-                (book) => book.id !== bookId
-              ),
-            }
-          : collection
-      )
-    );
-  };
-
+const ContentInfoUser = () => {
   return (
     <MainCardInfo>
-      <h2 className="text-gray-700 font-bold text-4xl mb-6">Мои подборки</h2>
-
-      {/* Блок пользовательских коллекций */}
-      <div className="mb-8">
-        <div className="flex items-center gap-4 mb-4">
-          <input
-            type="text"
-            value={newCollectionName}
-            onChange={(e) => setNewCollectionName(e.target.value)}
-            placeholder="Введите название коллекции"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          />
-          <button
-            onClick={handleCreateCollection}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-          >
-            Создать
-          </button>
+      <div className="flex gap-4 w-full">
+        <div className=" bg-black h-32 w-32 rounded-full"></div>
+        <div>
+          <div className="mb-6">
+            <h1 className="text-2xl font-bold">Эдвин Пфейфер</h1>
+            <p className="text-gray-600">Библиотекарь</p>
+          </div>
         </div>
-        <CollectionsGrid
-          collections={myCollection.filter((c) => !c.isFavorites)}
+      </div>
+      <div className="flex gap-2.5">
+        <CustomInput title="Почта" type="email" value="myMail@mail.ru" />
+        <CustomInput title="ВУЗ" type="text" value="ОмГТУ" />
+        <CustomInput title="Дата регистрация" type="date" value="15.05.2025" />
+        <CustomInput
+          title="Читательский билет"
+          type="number"
+          value="321321312"
         />
-
-        {/* Блок "Избранное" */}
-        {myCollection
-          .filter((c) => c.isFavorites)
-          .map((collection) => (
-            <div key={collection.id} className="mb-8">
-              <div className="flex flex-row justify-between items-center">
-                <h3 className="text-xl font-bold">{collection.title}</h3>
-              </div>
-              <div className="flex flex-wrap min-w-[200px] gap-4 mt-4">
-                {collection.booksCollection.map((book) => (
-                  <BookViewCatalog
-                    key={book.id}
-                    title={book.title}
-                    author={book.author}
-                    imgPath={book.cover}
-                    onClick={() => console.log("Просмотр", book)}
-                    onAddToCollection={(e) => {
-                      e.stopPropagation();
-                      addToCollection(book, collection.id);
-                    }}
-                    onRemoveFromCollection={(e) => {
-                      e.stopPropagation();
-                      removeFromCollection(book.id, collection.id);
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-          ))}
       </div>
     </MainCardInfo>
   );
 };
 
+//Работа с заявками
+const SubContentClient = () => {
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-row justify-between">
+        <CustomInput title={"Поиск"} className=" w-[600px]"></CustomInput>
+        <CustomInput title={"Статус"} className="w-full"></CustomInput>
+      </div>
+      <div className="flex flex-row gap-1">
+        <button>отклонить</button>
+        <button>принять</button>{" "}
+      </div>
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                ID
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                ФИО
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Статус
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Роль
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Регистрация
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Почта
+              </th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            <tr>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                1
+              </td>
+              <td className="px-6 py-4 text-sm text-gray-900">
+                Александров Николай
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm">
+                <span className="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">
+                  Подтвержден
+                </span>
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                Студент
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                10.04.2025
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                Alexandron.Nikolai@mail.ru
+              </td>
+            </tr>
+            <tr>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                1
+              </td>
+              <td className="px-6 py-4 text-sm text-gray-900">
+                Кеавеахеулуокалани Камехамехаокалани Лланаафрпуллуингиллгог...
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm">
+                <span className="px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800">
+                  Отклонен
+                </span>
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                Студент
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                10.04.2025
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                Alexandron.Nikolai@mail.ru
+              </td>
+            </tr>
+            <tr>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                1
+              </td>
+              <td className="px-6 py-4 text-sm text-gray-900">
+                Константинопольский Александр Владимирович
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm">
+                <span className="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">
+                  Ожидает
+                </span>
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                Студент
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                10.04.2025
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                Alexandron.Nikolai@mail.ru
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+
+const SubContentBook = () => {};
+
 const ContentApplications = () => {
-  const { user, loading } = useAuth();
-
-  // Начальное состояние - только "Книги"
-  const [buttons, setButtons] = useState([{ id: "books", label: "Книги" }]);
-  const [activeComponent, setActiveComponent] = useState("books"); // Начинаем с "books"
-
-  // Обновляем кнопки при изменении user
-  useEffect(() => {
-    if (user?.role === "LIBRARIAN") {
-      setButtons([
-        { id: "clients", label: "Пользователи" },
-        { id: "books", label: "Книги" },
-      ]);
-      setActiveComponent("clients");
-    }
-  }, [user]); // Зависимость от user
-
+  const buttons = [
+    { id: "clients", label: "Пользователи" },
+    { id: "books", label: "Книги" },
+  ];
   const subScreen = {
-    clients: <SubContentClient />,
-    books: <SubContentBook />,
+    clients: SubContentClient(),
+    books: <div>Книги</div>,
   };
+  const [activeComponent, setActiveComponent] = useState(buttons[0].id);
+
   return (
     <MainCardInfo>
-      <h2 className="text-gray-700 font-bold text-4xl">Заявки</h2>
+      <h2 className="text-gray-700 font-bold text-2xl">Заявки</h2>
       <div className="flex flex-row gap-1">
         {buttons.map(({ id, label }) => {
           return (
@@ -361,75 +292,33 @@ const ContentApplications = () => {
   );
 };
 
-const componentsScreenReader = {
-  profile: <PersonalAccountReader />,
-  history: <ContentHistory />,
-  myCollection: <ContentMyCollection />,
-};
-const componentsScreenPublisher = {
-  profile: <PersonalAccountStaff />,
-  applications: <ContentApplications />,
-  bookCatalog: <BookCatalog />,
-  reportsAndStatistics: <ReportsAndStatisticsPublisher />,
-};
-const componentsScreenLibrarian = {
-  profile: <PersonalAccountStaff />,
-  applications: <ContentApplications />,
-  bookCatalog: <BookCatalog />,
-  userManagement: <UserManagement />,
-  reportsAndStatistics: <ReportsAndStatistics />,
-};
-
-function checkUser(user) {
-  if (!user) return { screen: {}, buttons: {} };
-
-  switch (user.role) {
-    case "READER":
-      return { screens: componentsScreenReader, buttons: buttonsForReaders };
-    case "LIBRARIAN":
-      return {
-        screens: componentsScreenLibrarian,
-        buttons: buttonsForLibrarian,
-      };
-    default:
-      return {
-        screens: componentsScreenPublisher,
-        buttons: buttonsForPublisher,
-      }; // или "Неизвестная роль"
-  }
-}
-
 const UserDashboard = () => {
-  const router = useRouter();
-  const { user, loading } = useAuth();
   const breadcrumbPath = [
     { label: "Главная", href: "/" },
     { label: "Профиль", href: `/profile` },
   ];
-  useEffect(() => {
-    if (!loading && !user) {
-      router.push("/login");
-    }
-  }, [loading, user, router]);
-  const profile = checkUser(user);
-  const componentsScreen = componentsScreenLibrarian;
-  const buttonsSidebar = buttonsForLibrarian;
-  const [activeComponent, setActiveComponent] = useState("profile");
 
-  if (loading || !user) return <div>Загрузка...</div>;
+  const componentsScreen = {
+    profile: ContentApplications(), //ContentInfoUser(),
+    history: ContentHistory(),
+    myCollection: ContentMyCollection(),
+  };
+  const [activeComponent, setActiveComponent] = useState(
+    buttonsForReaders.at(0).id
+  );
 
   return (
     <>
-      <div className="flex flex-col mt-28 min-h-[calc(100vh-7rem)]">
-        <div className="mx-auto w-full max-w-[70%] flex flex-col flex-grow items-centers">
+      <div className="flex flex-col mt-28">
+        <div className="mx-auto  max-w-8/10 max-h-[80%] h-[80vh] flex flex-col items-centers">
           <Breadcrumbs path={breadcrumbPath} />
           <div className="flex gap-4 mt-4 h-full">
             <Sidebar
-              buttons={profile.buttons}
+              buttons={buttonsForReaders}
               activeComponent={activeComponent}
               setActiveComponent={setActiveComponent}
             />
-            {profile.screens[activeComponent]}
+            {componentsScreen[activeComponent]}
           </div>
         </div>
       </div>
@@ -438,3 +327,85 @@ const UserDashboard = () => {
 };
 
 export default UserDashboard;
+
+/*
+ {/* User Profile Header }
+ <div className=" bg-grey-800 rounded-lg">
+ <div className="mb-6">
+   <h1 className="text-2xl font-bold">Эдвин Пфейфер</h1>
+   <p className="text-gray-600">Библиотекарь</p>
+ </div>
+</div>
+{/* Search Section }
+<div className="bg-white p-5 rounded-lg shadow-sm border border-gray-200 mb-6">
+ <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+   <div className="mb-4 md:mb-0">
+     <h2 className="font-bold text-lg">Пользователи</h2>
+     <p className="text-gray-600 text-sm">Поиск по ФИО, группе и номеру договора</p>
+   </div>
+   <div>
+     <h2 className="font-bold text-lg">Книги</h2>
+   </div>
+ </div>
+</div>
+
+{/* Users Table }
+<div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+ <table className="min-w-full divide-y divide-gray-200">
+   <thead className="bg-gray-50">
+     <tr>
+       <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+       <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ФИО</th>
+       <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Статус</th>
+       <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Роль</th>
+       <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Регистрация</th>
+       <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Почта</th>
+     </tr>
+   </thead>
+   <tbody className="bg-white divide-y divide-gray-200">
+     <tr>
+       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">1</td>
+       <td className="px-6 py-4 text-sm text-gray-900">
+         Александров Николай
+       </td>
+       <td className="px-6 py-4 whitespace-nowrap text-sm">
+         <span className="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">
+           Подтвержден
+         </span>
+       </td>
+       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Студент</td>
+       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">10.04.2025</td>
+       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Alexandron.Nikolai@mail.ru</td>
+     </tr>
+     <tr>
+       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">1</td>
+       <td className="px-6 py-4 text-sm text-gray-900">
+         Кеавеахеулуокалани Камехамехаокалани Лланаафрпуллуингиллгог...
+       </td>
+       <td className="px-6 py-4 whitespace-nowrap text-sm">
+         <span className="px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800">
+           Отклонен
+         </span>
+       </td>
+       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Студент</td>
+       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">10.04.2025</td>
+       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Alexandron.Nikolai@mail.ru</td>
+     </tr>
+     <tr>
+       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">1</td>
+       <td className="px-6 py-4 text-sm text-gray-900">
+         Константинопольский Александр Владимирович
+       </td>
+       <td className="px-6 py-4 whitespace-nowrap text-sm">
+         <span className="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">
+           Ожидает
+         </span>
+       </td>
+       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Студент</td>
+       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">10.04.2025</td>
+       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Alexandron.Nikolai@mail.ru</td>
+     </tr>
+   </tbody>
+ </table>
+</div>
+*/
