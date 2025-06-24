@@ -83,8 +83,8 @@ const SearchPage = () => {
   ];
 
   return (
-    <div className="searchScreen">
-      <div className="searchScreen-container">
+    <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto mt-28">
         <Breadcrumbs path={breadcrumbPath} />
         {isLoading ? (
           <div className="search-loading">Загрузка...</div>

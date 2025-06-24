@@ -7,7 +7,7 @@ import { applyTheme } from "@/app/themeUtils.js";
 import { lightTheme } from "@resources/colors/colors.js";
 import Header from "@components/header/Header.js";
 import Breadcrumbs from "@components/breadcrumbs/breadcrumbs.jsx";
-import "./collection.css";
+// Removed external CSS import; using Tailwind classes instead
 import API_BASE_URL from "@/config";
 
 const CollectionPage = () => {
@@ -62,8 +62,8 @@ const CollectionPage = () => {
   ];
 
   return (
-    <div className="collectionScreen">
-      <div className="collectionScreen-container">
+    <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto mt-28">
         <Breadcrumbs path={breadcrumbPath} />
         <CollectionList
           collectionName={collection.name}

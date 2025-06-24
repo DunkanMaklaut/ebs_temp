@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import CollectionList from "@components/collectionList/CollectionList.jsx";
+import CookieConsent from "@components/cookie-consent/cookieConsent.js";
 import { applyTheme } from "@/app/themeUtils.js";
 import { lightTheme } from "@resources/colors/colors.js";
 import API_BASE_URL from "@/config";
@@ -112,6 +113,7 @@ const Page = function () {
             ))}
         </div>
       </div>
+      <CookieConsent />
     </div>
   );
 };
