@@ -35,15 +35,15 @@ const UserManipulateHeader = (loggedIn) => {
     );
   if (!user || user?.role == "") {
     return (
-      <button
-        onClick={() => router.push("/register")}
-        type="button"
-        className="profile-button"
-      >
-        <HiUser className="profile-icon text-gray-500" />
-        <span className="profile-text text-gray-500">Войти</span>
-      </button>
-    );
+  <button
+    onClick={() => router.push("/register")}
+    type="button"
+    className="profile-button flex flex-col items-center justify-center p-2"
+  >
+    <HiUser className="profile-icon text-gray-500 text-xl mb-1" />
+    <span className="profile-text text-gray-500 text-sm">Войти</span>
+  </button>
+);
   }
 
   if (user.role == "READER")
