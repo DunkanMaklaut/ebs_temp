@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { NextPage } from "next";
+
 import Header from "@components/header/Header";
 import Breadcrumbs from "@components/breadcrumbs/breadcrumbs";
 import { lightTheme } from "@resources/colors/colors.js";
